@@ -1,7 +1,28 @@
-function checkURL() {
+function getURLForProduction() {
+    return location.hash.replace(/^#/, '');
+}
+
+function getURLForTesting() {
+    // testing code
+    return "users";
+}
+
+function updateHashWhenIncorrectUrlForProduction() {
+// grab the first URL from nav
+    var $this = $('nav > ul > li:first-child > a[href!="#"]');
+
+    //update hash
+    window.location.hash = $this.attr('href');
+}
+
+function updateHashWhenIncorrectUrlForTesting() {
+    // testing code
+}
+
+function checkURL(getURL, updateHashWhenIncorrectUrl) {
 
     //get the url by removing the hash
-    var url = location.hash.replace(/^#/, '');
+    var url = getURL();
 
     container = $('#content');
     // Do this if url exists (for page refresh, etc...)
@@ -10,7 +31,7 @@ function checkURL() {
         $('nav li.active').removeClass("active");
         // match the url and add the active class
         $('nav li:has(a[href="' + url + '"])').addClass("active");
-        var title = ($('nav a[href="' + url + '"]').attr('title'))
+        var title = ($('nav a[href="' + url + '"]').attr('title'));
 
         // change page title from global var
         document.title = (title || document.title);
@@ -19,13 +40,13 @@ function checkURL() {
         // parse url to jquery
         loadURL(url + location.search, container);
     } else {
-
-        // grab the first URL from nav
-        var $this = $('nav > ul > li:first-child > a[href!="#"]');
-
-        //update hash
-        window.location.hash = $this.attr('href');
-
+        updateHashWhenIncorrectUrl();
     }
 
 }
+
+// для продакшн кода
+checkURL(getURLForProduction, updateHashWhenIncorrectUrlForProduction);
+
+// для тетсов
+checkURL(getURLForTesting, updateHashWhenIncorrectUrlForTesting);
