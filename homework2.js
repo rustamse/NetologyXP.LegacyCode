@@ -1,19 +1,20 @@
-function formSetEditReport(idReport) {
+
+function formSetEditReport(idReport, reportPlugin) {
     var report = {
-        'type': ReportPlugin.defaultReportType,
-        'format': ReportPlugin.defaultReportFormat,
+        'type': reportPlugin.defaultReportType,
+        'format': reportPlugin.defaultReportFormat,
         'description': '',
-        'period': ReportPlugin.defaultPeriod,
-        'hour': ReportPlugin.defaultHour,
+        'period': reportPlugin.defaultPeriod,
+        'hour': reportPlugin.defaultHour,
         'reports': []
     };
 
     if (idReport > 0) {
-        report = ReportPlugin.reportList[idReport];
-        $('#report_submit').val(ReportPlugin.updateReportString);
+        report = reportPlugin.reportList[idReport];
+        $('#report_submit').val(reportPlugin.updateReportString);
     }
     else {
-        $('#report_submit').val(ReportPlugin.createReportString);
+        $('#report_submit').val(reportPlugin.createReportString);
     }
 
     toggleReportType(report.type);
@@ -36,3 +37,27 @@ function formSetEditReport(idReport) {
 
     $('#report_idreport').val(idReport);
 }
+
+// для продакшн кода
+var reportPluginForProduction = ReportPlugin;
+formSetEditReport(idReport, reportPluginForProduction);
+
+
+
+
+// для тестирования
+var reportPluginForTesting = {
+    defaultReportType: "simple",
+    defaultReportFormat: "text",
+    defaultPeriod: "24",
+    defaultHour: "12",
+    updateReportString: function() {
+
+    },
+    createReportString: function () {
+
+    },
+
+    reportList: [{idReport: 1}]
+};
+formSetEditReport(idReport, reportPluginForTesting);
