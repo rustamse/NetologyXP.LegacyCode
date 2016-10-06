@@ -22,6 +22,7 @@ function updateHashWhenIncorrectUrlForTesting() {
 function checkURL(getURL, updateHashWhenIncorrectUrl) {
 
     //get the url by removing the hash
+    // Шов. Зависимость убрана благодаря инъекции зависимости в функцию.
     var url = getURL();
 
     container = $('#content');
@@ -40,6 +41,7 @@ function checkURL(getURL, updateHashWhenIncorrectUrl) {
         // parse url to jquery
         loadURL(url + location.search, container);
     } else {
+        // Шов. Зависимость убрана благодаря инъекции зависимости в функцию.
         updateHashWhenIncorrectUrl();
     }
 

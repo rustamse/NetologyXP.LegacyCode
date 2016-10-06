@@ -5,6 +5,7 @@ player.showHighScoreList = function(pageToken, requestProcessor, handleError) {
     document.querySelector('#highScoreListDiv').style.display = 'block';
     // Create the request.
     LEADERBOARD_ID = document.getElementById('leaderboardIdShowHS').value;
+    // Шов. Зависимость убрана благодаря инъекции зависимости в функцию.
     var request = requestProcessor(
         {leaderboardId: LEADERBOARD_ID,
             collection: 'PUBLIC',
@@ -15,6 +16,7 @@ player.showHighScoreList = function(pageToken, requestProcessor, handleError) {
         function(response) {
             console.log('High score', response);
             if (response.error) {
+                // Шов. Зависимость убрана благодаря инъекции зависимости в функцию.
                 handleError(response);
                 return;
             }
@@ -43,7 +45,7 @@ var requestProcessorForProduction = gapi.client.games.scores.list;
 var handleErrorForProduction = function (response) {
     alert('Error ' + response.error.code + ': ' + response.message);
 };
-player.showHighScoreList(pageToken, requestProcessorForProduction, handleErrorForProduction)
+player.showHighScoreList(pageToken, requestProcessorForProduction, handleErrorForProduction);
 
 
 
@@ -55,5 +57,5 @@ var requestProcessorForTesting = function(params) {
 };
 var handleErrorForTesting = function (response) {
     //..
-}
-player.showHighScoreList(pageToken, requestProcessorForTesting, handleErrorForTesting)
+};
+player.showHighScoreList(pageToken, requestProcessorForTesting, handleErrorForTesting);

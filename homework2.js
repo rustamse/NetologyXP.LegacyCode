@@ -1,4 +1,5 @@
 
+// Шов. Зависимость убрана благодаря передачи в функцию не конкретного экземпляра, а "интерфейса" (незнаю как на js такое называется)
 function formSetEditReport(idReport, reportPlugin) {
     var report = {
         'type': reportPlugin.defaultReportType,
@@ -41,8 +42,6 @@ function formSetEditReport(idReport, reportPlugin) {
 // для продакшн кода
 var reportPluginForProduction = ReportPlugin;
 formSetEditReport(idReport, reportPluginForProduction);
-
-
 
 
 // для тестирования
