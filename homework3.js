@@ -1,9 +1,11 @@
-player.showHighScoreList = function(pageToken) {
+
+
+player.showHighScoreList = function(pageToken, requestProcessor, handleError) {
     document.querySelector('#highScoreListDiv').innerHTML = '';
     document.querySelector('#highScoreListDiv').style.display = 'block';
     // Create the request.
     LEADERBOARD_ID = document.getElementById('leaderboardIdShowHS').value;
-    var request = gapi.client.games.scores.list(
+    var request = requestProcessor(
         {leaderboardId: LEADERBOARD_ID,
             collection: 'PUBLIC',
             timeSpan: 'all_time',
@@ -13,7 +15,7 @@ player.showHighScoreList = function(pageToken) {
         function(response) {
             console.log('High score', response);
             if (response.error) {
-                alert('Error ' + response.error.code + ': ' + response.message);
+                handleError(response);
                 return;
             }
             var root = document.getElementById('highScoreListDiv');
@@ -34,3 +36,24 @@ player.showHighScoreList = function(pageToken) {
             }
         });
 };
+
+
+// для продакшн кода
+var requestProcessorForProduction = gapi.client.games.scores.list;
+var handleErrorForProduction = function (response) {
+    alert('Error ' + response.error.code + ': ' + response.message);
+};
+player.showHighScoreList(pageToken, requestProcessorForProduction, handleErrorForProduction)
+
+
+
+// для тетсов
+var requestProcessorForTesting = function(params) {
+    function execute(f) {
+        //...
+    }
+};
+var handleErrorForTesting = function (response) {
+    //..
+}
+player.showHighScoreList(pageToken, requestProcessorForTesting, handleErrorForTesting)
